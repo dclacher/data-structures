@@ -1,16 +1,6 @@
 package slidingwindow;
 
 public class MaximumSumSubArray {
-    public static void main(String[] args) {
-        int[] arr1 = {1, 4, 2, 10, 23, 3, 1, 0, 20};
-        System.out.println(maximumSumSubArray(arr1, 4));
-        System.out.println(maximumSumSubArraySlidingWindow(arr1, 4));
-        System.out.println(maximumSumSubArraySlidingWindowOneLoop(arr1, 4));
-        int[] arr2 = {100, 200, 300, 400};
-        System.out.println(maximumSumSubArray(arr2, 2));
-        System.out.println(maximumSumSubArraySlidingWindow(arr2, 2));
-        System.out.println(maximumSumSubArraySlidingWindowOneLoop(arr2, 2));
-    }
 
     /**
      * Given an array of integers of size 'n', calculate the maximum sum of 'sub' CONSECUTIVE elements in the array.
@@ -113,5 +103,44 @@ public class MaximumSumSubArray {
             }
         }
         return maxSum;
+    }
+
+    /**
+     * For this one, we don't have a fixed size for the sub-array. Hence, we are going to use the Kadane's algorithm,
+     * reducing time complexity to O(n). Kadane's algorithm is all about COMPARING the accumulated sum (from the
+     * elements that have been visited so far) with the value of the single element in the current index.
+     *   - If the first one is greater, we keep accumulating (current sum will reflect that);
+     *   - Else, we discard everything we had so far and start a new sum (current sum will also reflect that) - it's
+     *   like "emptying" the sub-array we were building until this point.
+     *
+     *   Note: if all elements are negative integers, the max will the value of one single element (the greatest among
+     *   them all). If all elements are positive integers, the max is actually the sum of the whole array.
+     *
+     * @param array the array to be analyzed
+     * @return the maximum sum
+     */
+    private static int maximumSumSubArrayKadane(int[] array) {
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0, accumulatedSum, nonAccumulatedSum;
+        for (int j : array) {
+            nonAccumulatedSum = j;
+            accumulatedSum = currentSum + nonAccumulatedSum;
+            currentSum = Math.max(nonAccumulatedSum, accumulatedSum);
+            maxSum = Math.max(currentSum, maxSum);
+        }
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {1, 4, 2, 10, 23, 3, 1, 0, 20};
+        System.out.println(maximumSumSubArray(arr1, 4));
+        System.out.println(maximumSumSubArraySlidingWindow(arr1, 4));
+        System.out.println(maximumSumSubArraySlidingWindowOneLoop(arr1, 4));
+        int[] arr2 = {100, 200, 300, 400};
+        System.out.println(maximumSumSubArray(arr2, 2));
+        System.out.println(maximumSumSubArraySlidingWindow(arr2, 2));
+        System.out.println(maximumSumSubArraySlidingWindowOneLoop(arr2, 2));
+        int[] array3 = {-2, 2, 5, -11, 8, -1, 2};
+        System.out.println(maximumSumSubArrayKadane(array3));
     }
 }

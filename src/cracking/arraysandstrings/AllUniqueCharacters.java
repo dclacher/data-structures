@@ -29,7 +29,7 @@ public class AllUniqueCharacters {
 
     /**
      * Implement an algorithm to determine if a string has all unique characters. Using here an array for ASCII chars
-     * (128 positions).
+     * (128 positions). Assuming it's not extended ASCII or yet another encoding.
      *
      * @param s the string to be evaluated
      * @return true if all the characters are unique; false otherwise

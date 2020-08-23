@@ -2,27 +2,6 @@ package slidingwindow;
 
 public class MaximumProductSubArray {
 
-    public static void main(String[] args) {
-        int[] array = new int[8];
-        array[0] = 2;
-        array[1] = -3;
-        array[2] = 4;
-        array[3] = 0;
-        array[4] = 1;
-        array[5] = -2;
-        array[6] = 3;
-        array[7] = 4;
-        System.out.println(MaximumProductSubArray.maxProduct(array));
-        System.out.println(MaximumProductSubArray.maxProductSlidingWindow(array));
-
-        int[] array2 = new int[3];
-        array2[0] = 3;
-        array2[1] = 3;
-        array2[2] = -1;
-        System.out.println(MaximumProductSubArray.maxProduct(array2));
-        System.out.println(MaximumProductSubArray.maxProductSlidingWindow(array2));
-    }
-
     /**
      * Given an integer array nums, find the CONTIGUOUS sub-array within an array (containing at least one number)
      * which has the largest product. (SLIDING WINDOW approach)
@@ -56,6 +35,34 @@ public class MaximumProductSubArray {
                     maxProduct = currentProduct;
                 }
                 right++;
+            }
+        }
+        return maxProduct;
+    }
+
+    /**
+     * Given an integer array nums, find the CONTIGUOUS sub-array within an array (containing at least one number)
+     * which has the largest product. (Kadane's algorithm)
+     *
+     * @param nums the array of numbers to be processed
+     * @return the largest product
+     */
+    public static int maxProductKadane(int[] nums) {
+        // if there's less than one element, don't even bother processing
+        if (nums.length < 1) {
+            throw new IllegalArgumentException("The array should have at least one element.");
+        }
+        int maxProduct = Integer.MIN_VALUE;
+        // if there's only one element, just return the product; else go process the array
+        if (nums.length == 1) {
+            return nums[0];
+        } else {
+            int currentProduct = 1, accumulatedProduct, nonAccumulatedProduct;
+            for (int i : nums) {
+                nonAccumulatedProduct = i;
+                accumulatedProduct = currentProduct * nonAccumulatedProduct;
+                currentProduct = Math.max(accumulatedProduct, nonAccumulatedProduct);
+                maxProduct = Math.max(currentProduct, maxProduct);
             }
         }
         return maxProduct;
@@ -96,5 +103,28 @@ public class MaximumProductSubArray {
             }
         }
         return maxProduct;
+    }
+
+    public static void main(String[] args) {
+        int[] array = new int[8];
+        array[0] = 2;
+        array[1] = -3;
+        array[2] = 4;
+        array[3] = 0;
+        array[4] = 1;
+        array[5] = -2;
+        array[6] = 3;
+        array[7] = 4;
+        System.out.println(MaximumProductSubArray.maxProduct(array));
+        System.out.println(MaximumProductSubArray.maxProductSlidingWindow(array));
+        System.out.println(MaximumProductSubArray.maxProductKadane(array));
+
+        int[] array2 = new int[3];
+        array2[0] = 3;
+        array2[1] = 3;
+        array2[2] = -1;
+        System.out.println(MaximumProductSubArray.maxProduct(array2));
+        System.out.println(MaximumProductSubArray.maxProductSlidingWindow(array2));
+        System.out.println(MaximumProductSubArray.maxProductKadane(array2));
     }
 }
