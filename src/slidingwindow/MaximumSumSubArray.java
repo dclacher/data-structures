@@ -109,23 +109,55 @@ public class MaximumSumSubArray {
      * For this one, we don't have a fixed size for the sub-array. Hence, we are going to use the Kadane's algorithm,
      * reducing time complexity to O(n). Kadane's algorithm is all about COMPARING the accumulated sum (from the
      * elements that have been visited so far) with the value of the single element in the current index.
-     *   - If the first one is greater, we keep accumulating (current sum will reflect that);
-     *   - Else, we discard everything we had so far and start a new sum (current sum will also reflect that) - it's
-     *   like "emptying" the sub-array we were building until this point.
-     *
-     *   Note: if all elements are negative integers, the max will the value of one single element (the greatest among
-     *   them all). If all elements are positive integers, the max is actually the sum of the whole array.
+     * - If the first one is greater, we keep accumulating (current sum will reflect that);
+     * - Else, we discard everything we had so far and start a new sum (current sum will also reflect that) - it's
+     * like "emptying" this imaginary sub-array we were building and "restarting" it with this new value.
+     * <p>
+     * Note: if all elements are negative integers, the max will the value of one single element (the greatest among
+     * them all). If all elements are positive integers, the max is actually the sum of the whole array.
      *
      * @param array the array to be analyzed
      * @return the maximum sum
      */
     private static int maximumSumSubArrayKadane(int[] array) {
+        // return 0 if array is empty
+        if (array.length == 0) return 0;
         int maxSum = Integer.MIN_VALUE;
-        int currentSum = 0, accumulatedSum, nonAccumulatedSum;
+        int currentSum = 0, singleValueCurrentPos, cumulativeSum;
+        for (int i = 0; i < array.length; i++) {
+            // always start from the single value
+            singleValueCurrentPos = array[i];
+            // then add it to the current sum to get the cumulative sum
+            cumulativeSum = currentSum + singleValueCurrentPos;
+            if (singleValueCurrentPos > cumulativeSum) {
+                // if the single value at the current position is greater than everything that has been added so far,
+                // "empty" the imaginary sub-array and "reset" it with this new value
+                currentSum = singleValueCurrentPos;
+            } else {
+                // if not, keep accumulating
+                currentSum = cumulativeSum;
+            }
+            // update (or not) the maximum sum
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+            }
+        }
+        return maxSum;
+    }
+
+    /**
+     * Same as above, but using Math.max() and enhanced for loop.
+     *
+     * @param array the array
+     * @return the max sum
+     */
+    private static int maximumSumSubArrayKadane2(int[] array) {
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0, cumulativeSum, singleValueCurrentPos;
         for (int j : array) {
-            nonAccumulatedSum = j;
-            accumulatedSum = currentSum + nonAccumulatedSum;
-            currentSum = Math.max(nonAccumulatedSum, accumulatedSum);
+            singleValueCurrentPos = j;
+            cumulativeSum = currentSum + singleValueCurrentPos;
+            currentSum = Math.max(singleValueCurrentPos, cumulativeSum);
             maxSum = Math.max(currentSum, maxSum);
         }
         return maxSum;
@@ -142,5 +174,7 @@ public class MaximumSumSubArray {
         System.out.println(maximumSumSubArraySlidingWindowOneLoop(arr2, 2));
         int[] array3 = {-2, 2, 5, -11, 8, -1, 2};
         System.out.println(maximumSumSubArrayKadane(array3));
+        int[] array4 = {-2};
+        System.out.println(maximumSumSubArrayKadane(array4));
     }
 }
