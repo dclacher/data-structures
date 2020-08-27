@@ -52,9 +52,7 @@ public class ReverseString {
         char[] chars = s.toCharArray();
         for (int i = 0; i < chars.length / 2; i++) {
             int rightIndex = chars.length - 1 - i;
-            char temp = chars[i];
-            chars[i] = chars[rightIndex];
-            chars[rightIndex] = temp;
+            swap(chars, i, rightIndex);
         }
         return new String(chars);
     }

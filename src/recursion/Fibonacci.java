@@ -28,6 +28,12 @@ public class Fibonacci {
         }
     }
 
+    /**
+     * The recursive solution, without memoization, has a runtime of O(2^N) -- exponential.
+     *
+     * @param pos the position of the Fibonacci number we want to find
+     * @return the Fibonacci number at that position
+     */
     private static int fibRec(int pos) { // assuming that pos won't be < 0
         if (pos <= 1) {
             return pos;
