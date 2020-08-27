@@ -41,6 +41,24 @@ public class ReverseString {
         return new String(chars);
     }
 
+    /**
+     * This is a similar solution, but using a for loop that iterates only to the middle of the char array. The aux.
+     * variable goes from the final of the array to the middle, traversing to the left, while i goes to the right.
+     *
+     * @param s the string
+     * @return the reverted string
+     */
+    private static String reverseStringOneAuxVar(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length / 2; i++) {
+            int rightIndex = chars.length - 1 - i;
+            char temp = chars[i];
+            chars[i] = chars[rightIndex];
+            chars[rightIndex] = temp;
+        }
+        return new String(chars);
+    }
+
     private static void swap(char[] chars, int i, int j) {
         char temp = chars[i];
         chars[i] = chars[j];
@@ -56,5 +74,11 @@ public class ReverseString {
         System.out.println(reverseStringWithoutStack("m"));
         System.out.println(reverseStringWithoutStack("md"));
         System.out.println(reverseStringWithoutStack("mad"));
+        System.out.println(reverseStringOneAuxVar("Daniel"));
+        System.out.println(reverseStringOneAuxVar("mad dog"));
+        System.out.println(reverseStringOneAuxVar(""));
+        System.out.println(reverseStringOneAuxVar("m"));
+        System.out.println(reverseStringOneAuxVar("md"));
+        System.out.println(reverseStringOneAuxVar("mad"));
     }
 }
