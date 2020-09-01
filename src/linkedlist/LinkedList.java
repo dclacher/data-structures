@@ -83,32 +83,27 @@ public class LinkedList {
     }
 
     public void reverseList() {
-        if (head == null || head.next == null) return; // empty list or a 1-element list
-        if (head.next.next == null) { // a 2-elements list
-            Node second = head.next; // get a reference for head.next before "burning the bridge"
-            head.next = null; // now head.next points to null
-            second.next = head; // the second node points to head now
-            head = second; // the second node becomes the head
-        } else { // 3 or more elements in the list
-            // create 3 references, but the FOCUS will always be on the CURRENT node (the one that will "repoint" to the
-            // previous node and "burn the bridge" to the next node.
-            Node prev = null; // when created, "prev" points to null because "curr" is the head
-            Node curr = head; // the FOCUS start on the HEAD
-            Node next = curr.next; // since here there are at least 3 elements, curr.next will never be null here
-            while(next != null) {
-                curr.next = prev; // the CURRENT node points back to "prev" and "burns the bridge" to next
-                prev = curr; // "prev" moves one position to the right
-                curr = next; // "curr" moves one position to the right
-                next = next.next; // "next" moves one position to the right (in the last iteration "next.next" is null)
-            }
-            // when this last "next" is null, it means "curr" is our NEW HEAD so we have to update the pointers
-            head = curr;
-            head.next = prev; // rebuild the last bridge
+        if (head == null || head.next == null) {
+            return; // empty list or a 1-element list
         }
+        // create 3 references, but the FOCUS will always be on the CURRENT node (the one that will "repoint" to the
+        // previous node and "burn the bridge" to the next node.
+        Node prev = null; // when created, "prev" points to null because "curr" is the head
+        Node curr = head; // the FOCUS start on the HEAD
+        Node next = curr.next; // since here there are at least 2 elements, curr.next will never be null here
+        while (next != null) {
+            curr.next = prev; // the CURRENT node points back to "prev" and "burns the bridge" to next
+            prev = curr; // "prev" moves one position to the right
+            curr = next; // "curr" moves one position to the right
+            next = curr.next; // "next" moves one position to the right (in the last iteration "curr.next" is null)
+        }
+        // when this last "next" is null, it means "curr" is our NEW HEAD so we have to update the pointers
+        curr.next = prev; // rebuild the last bridge
+        head = curr;
     }
 
     public void reverseListRec(Node node) {
-        if (head == null || head.next == null) return; // empty list or a 1-element list
+        if (head == null) return; // empty list
         if (node.next == null) { // base case
             // once the last node is reached, it means it's the NEW HEAD, so we update "head" and return
             head = node;

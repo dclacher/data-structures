@@ -41,5 +41,18 @@ public class Main {
         l4.reverseListRec(l4.head);
         System.out.println(l4.printList());
         System.out.println(l4.head.data); // 1000
+
+        LinkedList l5 = new LinkedList();
+        l5.append(1);
+        System.out.println(l5.printList());
+        l5.reverseListRec(l5.head);
+        System.out.println(l5.printList());
+        System.out.println(l5.head.data);
+
+        LinkedList l6 = new LinkedList();
+        System.out.println(l6.printList());
+        l6.reverseListRec(l6.head);
+        System.out.println(l6.printList());
+        // System.out.println(l6.head.data);
     }
 }
